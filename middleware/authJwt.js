@@ -14,7 +14,16 @@ const catchError = (err, res) => {
 }
 
 verifyToken = (req, res, next) => {
-    let token = req.headers["x-access-token"];
+    let token = ''
+    // this is for x-access-token
+    token = req.headers["x-access-token"];
+    // this is for bearer token
+    const bearerHeader = req.headers['authorization']
+    if(typeof bearerHeader !== undefined){
+        const bearer = bearerHeader.split(' ')
+        const bearerToken = bearer[1]
+        token = bearerToken
+    }
 
     if (!token) {
         return res.status(403).send({
