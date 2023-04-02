@@ -14,7 +14,7 @@ module.exports = function (app) {
 
     app.get(
         "/api/test/user",
-        [authJwt.verifyToken, rateLimiter.redisRateLimiter],
+        [authJwt.verifyToken],
         controller.userBoard
     );
 

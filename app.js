@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const { redisRateLimiter} = require("./middleware/rateLimiter")
 
 const app = express();
 
@@ -14,6 +15,11 @@ app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+
+// rate limiter
+if(process.env.RATE_LIMITER_ENABLED) {
+    app.use(redisRateLimiter)
+}
 
 const db = require("./models");
 const Role = db.role;
@@ -46,7 +52,6 @@ const initial = () => {
 }
 // CRUD Operations example
 require("./routes/desserts")(app);
-// authentication and JWT
 require('./routes/auth')(app);
 require('./routes/user')(app);
 
