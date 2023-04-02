@@ -17,9 +17,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // rate limiter
-if(process.env.RATE_LIMITER_ENABLED) {
+// if(process.env.RATE_LIMITER_ENABLED) {
     app.use(redisRateLimiter)
-}
+// }
 
 const db = require("./models");
 const Role = db.role;
