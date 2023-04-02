@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const { redisRateLimiter} = require("./middleware/rateLimiter")
 
+
+
 const app = express();
 
 var corsOptions = {
@@ -17,18 +19,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // rate limiter
-// if(process.env.RATE_LIMITER_ENABLED) {
+if(process.env.RATE_LIMITER_ENABLED === 'YES') {
     app.use(redisRateLimiter)
-// }
+}
 
 const db = require("./models");
 const Role = db.role;
 
 // NOTE: this true is forced since in development we need to re-sync the database often
-db.sequelize.sync({ force: true })
+db.sequelize.sync({ force: process.env.FORCE_SYNC  === 'YES' })
     .then(() => {
         console.log("Synced db.");
-        initial();
+        if(process.env.FORCE_INIT === 'YES') initial();
     })
     .catch((err) => {
         console.log("Failed to sync db: " + err.message);
