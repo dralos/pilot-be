@@ -97,10 +97,10 @@ isModeratorOrAdmin = (req, res, next) => {
     });
 };
 
-const authJwt = {
+const authJWT = {
     verifyToken: verifyToken,
     isAdmin: isAdmin,
     isModerator: isModerator,
     isModeratorOrAdmin: isModeratorOrAdmin
 };
-module.exports = authJwt;
+module.exports = authJWT;
