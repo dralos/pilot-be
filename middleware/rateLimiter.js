@@ -5,9 +5,9 @@ const redisClient = redis.createClient()
 redisClient.on('error', (err) => console.log('Redis Client Error', err))
 
 // get all of this config from the .env file 
-// TODO: review how much do we wanna use this
+// TODO: review how much do we wanna use this, add configuration numebers to .env
 const WINDOW_SIZE_IN_HOURS = 24;
-const MAX_WINDOW_REQUEST_COUNT = 3;
+const MAX_WINDOW_REQUEST_COUNT = 10;
 const WINDOW_LOG_INTERVAL_IN_HOURS = 1;
 
 const redisRateLimiter = async (req, res, next) => {
