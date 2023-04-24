@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { redisRateLimiter} = require("./middleware/rateLimiter")
+const { rateLimiter, redisCache } = require("./middleware")
 
 
 
@@ -20,8 +20,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // rate limiter
 if(process.env.RATE_LIMITER_ENABLED === 'YES') {
-    app.use(redisRateLimiter)
+    app.use(rateLimiter)
 }
+
+app.use(redisCache)
 
 const db = require("./models");
 const Role = db.role;
